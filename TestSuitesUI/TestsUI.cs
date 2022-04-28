@@ -9,11 +9,12 @@ namespace AutomatedTests
 {
     public class TestsUI : CommonTestClass
     {
+        TestsExtensionMethods extenMethods;
 
         [Test]
         public void Tc01_TestUserAuthorization()
         {
-            TestsExtensionMethods extenMethods = new TestsExtensionMethods();
+            extenMethods = new TestsExtensionMethods();
             LoginElements loginElem = new LoginElements();
             steps.OpenPage("https://www.mantisbt.org/bugs/my_view_page.php");
             steps.ClickLoginButton();
@@ -24,7 +25,9 @@ namespace AutomatedTests
         [Test]
         public void Tc02_TestCreateTask()
         {
-            steps.CreateReport();    
+            TaskCreationElements creatElem = new TaskCreationElements();
+            steps.CreateTask();
+            Assert.IsTrue(extenMethods.IsElementPresent(creatElem.ReportID, TimeSpan.FromSeconds(5)));
         }
     }
 }

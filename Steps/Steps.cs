@@ -11,11 +11,13 @@ namespace AutomatedTests.CommonTestEntities
     {
         protected IWebDriver webdriver;
         protected LoginElements loginElem;
+        protected TaskCreationElements creatElem;
 
         public Steps()
         {
             webdriver = DriverSingleton.Instance;
             loginElem = new LoginElements();
+            creatElem = new TaskCreationElements();
         }
 
         public void OpenPage(string link)
@@ -40,8 +42,14 @@ namespace AutomatedTests.CommonTestEntities
             loginElem.ButtonLoginSubmit.Click();
             wait.Until(e => loginElem.ReportIssueButton.Displayed);
         }
-
-        public void CreateReport() => loginElem.ReportIssueButton.Click();
-
+ 
+        public void CreateTask()
+        {
+            loginElem.ReportIssueButton.Click();
+            new SelectElement(creatElem.DropDownReproducibility).SelectByText("unable to reproduce");
+            creatElem.FieldSummary.SendKeys("TestSummary");
+            creatElem.FieldDescription.SendKeys("TestDescription");
+            creatElem.ButtonSumbitReport.Click();
+        }
     }
 }
